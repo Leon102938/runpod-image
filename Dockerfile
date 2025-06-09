@@ -22,7 +22,9 @@ COPY . /workspace
 RUN chmod +x start.sh
 
 # Standardkommando: Startscript
-CMD ["/start.sh"]
+CMD ["/workspace/start.sh"]
+
+
 
 
 
