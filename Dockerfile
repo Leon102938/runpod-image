@@ -1,13 +1,17 @@
 # Dockerfile
 FROM python:3.10-slim
 
-# Systemabhängigkeiten
-RUN apt update && apt install -y git curl ffmpeg && rm -rf /var/lib/apt/lists/*
+# Systemabhängigkeiten + Node.js + n8n
+RUN apt update && apt install -y git curl ffmpeg && \
+    curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt install -y nodejs && \
+    npm install -g n8n && \
+    rm -rf /var/lib/apt/lists/*
 
-# Arbeitsverzeichnis
+# Arbeitsverzeichnis setzen
 WORKDIR /workspace
 
-# Python Requirements installieren
+# Python-Abhängigkeiten installieren
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -17,6 +21,7 @@ COPY . /workspace
 # start.sh ausführbar machen
 RUN chmod +x start.sh
 
-# Start-Script ausführen
+# Start-Skript aufrufen
 CMD ["bash", "start.sh"]
+
 

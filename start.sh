@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# Starte JupyterLab
-jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root &
+echo ">>> Starte JupyterLab..."
+jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root > jupyter.log 2>&1 &
 
-# Starte n8n korrekt auf Port 7860
-n8n start --port=7860 &
+echo ">>> Starte N8N..."
+n8n start --port=7860 > n8n.log 2>&1 &
 
-# Starte FastAPI txt2img
-uvicorn app.main:app --host 0.0.0.0 --port=8000 &
+echo ">>> Starte txt2img FastAPI..."
+uvicorn app.main:app --host 0.0.0.0 --port=8000 > txt2img.log 2>&1 &
 
-# Container aktiv lassen
-sleep infinity
+echo ">>> Alle Dienste laufen. Starte Bash für Terminal-Zugriff..."
+exec bash
