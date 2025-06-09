@@ -14,5 +14,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Projektdateien kopieren
 COPY . /workspace
 
+# start.sh ausführbar machen
+RUN chmod +x start.sh
+
 # Start-Script ausführen
 CMD ["bash", "start.sh"]
+
