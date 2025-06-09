@@ -1,8 +1,8 @@
-# Dockerfile
+# Basis: Leichtgewichtiger Python-Container
 FROM python:3.10-slim
 
 # Systemabhängigkeiten + Node.js + n8n
-RUN apt update && apt install -y git curl ffmpeg && \
+RUN apt update && apt install -y git curl ffmpeg bash build-essential && \
     curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
     apt install -y nodejs && \
     npm install -g n8n && \
@@ -11,17 +11,18 @@ RUN apt update && apt install -y git curl ffmpeg && \
 # Arbeitsverzeichnis setzen
 WORKDIR /workspace
 
-# Python-Abhängigkeiten installieren
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# requirements.txt kopieren und installieren (falls vorhanden)
+COPY requirements.txt . 
+RUN pip install --no-cache-dir -r requirements.txt || true
 
-# Projektdateien kopieren
+# Alle Projektdateien kopieren
 COPY . /workspace
 
-# start.sh ausführbar machen
+# Startscript ausführbar machen
 RUN chmod +x start.sh
 
-# Start-Skript aufrufen
+# Standardkommando: Startscript
 CMD ["bash", "start.sh"]
+
 
 
