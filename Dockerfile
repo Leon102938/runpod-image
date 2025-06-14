@@ -1,26 +1,34 @@
-FROM python:3.10-slim
+FROM ubuntu:22.04
 
-# Install basic tools
-RUN apt update && apt install -y bash curl nano git ffmpeg build-essential \
+# 🔧 Systempakete installieren
+RUN apt update && apt install -y \
+    python3 python3-pip bash curl nano git ffmpeg build-essential net-tools \
     && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt install -y nodejs \
     && npm install -g n8n \
     && rm -rf /var/lib/apt/lists/*
 
-# Arbeitsverzeichnis
+# 🌍 N8N Umgebungsvariablen
+ENV N8N_PORT=7860
+ENV GENERIC_TIMEZONE=Europe/Berlin
+ENV N8N_BASIC_AUTH_ACTIVE=false
+
+# 🔑 Jupyter ohne Token starten
+ENV JUPYTER_TOKEN=""
+ENV JUPYTER_ENABLE_LAB=yes
+
 WORKDIR /workspace
 
-# Optional: requirements
+# 📦 Python Requirements
 COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt || true
+RUN pip3 install --no-cache-dir -r requirements.txt || true
 
-# Startskript
+# 🧠 Startskript
 COPY start.sh ./start.sh
 RUN chmod +x start.sh
 
-# Start über dein Script
+# 🟢 Start
 CMD ["./start.sh"]
-
 
 
 
