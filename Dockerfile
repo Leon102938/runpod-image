@@ -27,8 +27,7 @@ RUN pip3 install --no-cache-dir -r requirements.txt || true
 COPY start.sh ./start.sh
 RUN chmod +x start.sh
 
-# 🟢 Start
-CMD ["./start.sh"]
 
+CMD ["bash", "-c", "echo 'Container läuft. Öffne das Terminal manuell.' && tail -f /dev/null"]
 
 
