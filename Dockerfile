@@ -30,4 +30,5 @@ RUN chmod +x start.sh
 
 CMD ["bash", "-c", "echo 'Container läuft. Öffne das Terminal manuell.' && tail -f /dev/null"]
 
+# ⬆️ Dummy-Update für RunPod Rebuild
 
